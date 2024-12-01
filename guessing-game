@@ -1,0 +1,33 @@
+cd ~/guessing-game
+nano guessinggame.sh
+#!/bin/bash
+
+# Fonction pour obtenir le nombre de fichiers dans le répertoire courant
+get_file_count() {
+    ls -1 | wc -l
+}
+
+file_count=$(get_file_count) # Calcul du nombre de fichiers
+
+echo "Bienvenue dans le jeu de devinettes !"
+echo "Combien de fichiers se trouvent dans le répertoire courant ?"
+
+while true; do
+    read -p "Votre estimation : " guess # Demander une estimation
+
+    if ! [[ "$guess" =~ ^[0-9]+$ ]]; then
+        echo "Veuillez entrer un nombre valide."
+        continue
+    fi
+
+    if (( guess < file_count )); then
+        echo "Trop bas ! Essayez encore."
+    elif (( guess > file_count )); then
+        echo "Trop haut ! Essayez encore."
+    else
+        echo "Félicitations ! Vous avez trouvé le bon nombre de fichiers : $file_count."
+        break
+    fi
+done
+chmod +x guessinggame.sh
+./guessinggame.sh
